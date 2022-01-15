@@ -1,2 +1,5 @@
 # Software-Challenge
-Software challenge using Spring Boot as back-end
+REST API Using Spring-Boot framework.
+H2 Database (memory database, no need to setup)
+
+# ENDPOINTS
