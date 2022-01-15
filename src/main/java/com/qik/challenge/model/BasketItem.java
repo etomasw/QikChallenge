@@ -14,8 +14,13 @@ public class BasketItem {
     private int quantity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id",nullable=false, updatable=false)
     private Product product;
+
+    public BasketItem(Long id, int quantity, Product product) {
+        this.id = id;
+        this.quantity = quantity;
+        this.product = product;
+    }
 
     public BasketItem() {
     }
@@ -36,4 +41,11 @@ public class BasketItem {
         this.quantity = quantity;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

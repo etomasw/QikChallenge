@@ -20,7 +20,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public Basket update(Basket basket) {
-        return null;
+        return basketRepository.save(basket);
     }
 
     @Override
@@ -36,5 +36,10 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public Basket removeItem(Long basketItemId) {
         return null;
+    }
+
+    @Override
+    public Basket findById(Long id) {
+        return basketRepository.findById(id).orElse(null);
     }
 }

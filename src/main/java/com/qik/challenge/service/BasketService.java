@@ -9,4 +9,5 @@ public interface BasketService {
     void delete(Long id);
     Basket addItem(BasketItem basketItem);
     Basket removeItem(Long basketItemId);
+    Basket findById(Long id);
 }

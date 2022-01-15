@@ -6,6 +6,9 @@ import com.qik.challenge.service.BasketItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BasketItemServiceImpl implements BasketItemService {
 
@@ -25,5 +28,17 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Override
     public BasketItem edit(BasketItem basketItem) {
         return basketItemRepository.save(basketItem);
+    }
+
+    @Override
+    public BasketItem findById(Long id) {
+        return basketItemRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<BasketItem> findAll() {
+        List<BasketItem> list = new ArrayList<>();
+        basketItemRepository.findAll().forEach(list::add);
+        return list;
     }
 }
