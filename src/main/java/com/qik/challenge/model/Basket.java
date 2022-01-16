@@ -1,5 +1,9 @@
 package com.qik.challenge.model;
 
+import com.qik.challenge.model.promotions.FlatPromotion;
+import com.qik.challenge.model.promotions.GetFreePromotion;
+import com.qik.challenge.model.promotions.QuantityPromotion;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -12,16 +16,16 @@ public class Basket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer rawPrice;
+    private Integer rawPrice = 0;
     private Integer numberProducts;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Set<BasketItem> products;
 
-    public Basket(Long id, Integer rawPrice, Integer numberProducts, Set<BasketItem> products) {
+    public Basket(Long id, Set<BasketItem> products) {
         this.id = id;
-        this.rawPrice = rawPrice;
-        this.numberProducts = numberProducts;
+        this.rawPrice = 0;
+        this.numberProducts = 0;
         this.products = products;
     }
 
@@ -56,7 +60,39 @@ public class Basket {
         return products;
     }
 
+    public void addProduct(BasketItem product) {
+        Integer basketItemRawPrice = product.getProduct().getPrice() * product.getQuantity();
+        this.rawPrice += basketItemRawPrice;
+        this.products.add(product);
+        if(this.numberProducts == null) {
+            this.numberProducts = 1;
+        } else {
+            this.numberProducts++;
+        }
+    }
+
     public void setProducts(Set<BasketItem> products) {
         this.products = products;
+    }
+
+    public float calculatePromotions() {
+        float savings = 0;
+        for(BasketItem b : products) {
+            Product product = b.getProduct();
+            Integer rawPrice = b.getQuantity() * product.getPrice();
+            if(product.getPromotions().size() > 0) {
+                for(Promotion p : product.getPromotions()) {
+                    if(p instanceof FlatPromotion) {
+                        FlatPromotion flat = (FlatPromotion) p;
+                        savings += (rawPrice * flat.getPercentDiscount()) / 100.00;
+                    } else if(p instanceof GetFreePromotion) {
+
+                    } else if(p instanceof QuantityPromotion) {
+
+                    }
+                }
+            }
+        }
+        return savings;
     }
 }

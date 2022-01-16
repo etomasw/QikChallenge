@@ -11,12 +11,12 @@ public class BasketItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 
-    public BasketItem(Long id, int quantity, Product product) {
+    public BasketItem(Long id, Integer quantity, Product product) {
         this.id = id;
         this.quantity = quantity;
         this.product = product;
@@ -33,11 +33,11 @@ public class BasketItem {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

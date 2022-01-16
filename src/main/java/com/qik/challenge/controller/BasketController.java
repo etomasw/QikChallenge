@@ -32,15 +32,17 @@ public class BasketController {
 
     @GetMapping("/info/{id}")
     public ResponseEntity<Basket> getBasket(@PathVariable("id") Long id) {
+        Basket basket = basketService.findById(id);
+        LOGGER.info("Total order cost with promotions: " + basket.calculatePromotions());
+        LOGGER.info("Total order cost RAW withour promos: " + basket.getRawPrice());
         return new ResponseEntity<>(basketService.findById(id), OK);
     }
 
-    @PostMapping("/add/{id}/{basketId}")
-    public ResponseEntity<Basket> addBasketItem(@PathVariable("id") Long id, @PathVariable("basketId") Long basketId) {
+    @PostMapping("/add/{id}/{basketItemId}")
+    public ResponseEntity<Basket> addBasketItem(@PathVariable("id") Long id, @PathVariable("basketItemId") Long basketId) {
         Basket basket = basketService.findById(id);
         BasketItem item = basketItemService.findById(basketId);
-        LOGGER.info("Products: " + basket.getProducts().size());
-        basket.getProducts().add(item);
+        basket.addProduct(item);
         basketService.update(basket);
         LOGGER.info("Products: " + basket.getProducts().size());
         return new ResponseEntity<>(basket, OK);
