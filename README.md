@@ -35,11 +35,15 @@ H2 Database (built-in memory database, no need to setup)
 
 How long did you spend on the test?
 About 2 days.
+
 What would you add if you had more time?
 Login and Register system, WishList.
+
 How would you improve the product APIs that you had to consume?
 I will break the relationship between product and promotion.
+
 What did you find most difficult?
 Implementing the three promotion types.
+
 How did you find the overall experience, any feedback for us?
 It's a great project to show your actual knowledge.
