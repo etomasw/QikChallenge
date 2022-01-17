@@ -16,6 +16,7 @@ public class FlatPromotion extends Promotion {
     private PromotionType promotionType;
     private Integer percentDiscount;
 
+
     public FlatPromotion() {
     }
 

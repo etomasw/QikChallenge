@@ -17,15 +17,17 @@ public class Basket {
     private Long id;
 
     private Integer rawPrice = 0;
-    private Integer numberProducts;
+    private double finalPrice = 0;
+    private Integer numberProducts = 0;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Set<BasketItem> products;
 
-    public Basket(Long id, Set<BasketItem> products) {
+    public Basket(Long id, Integer rawPrice, double finalPrice, Integer numberProducts, Set<BasketItem> products) {
         this.id = id;
-        this.rawPrice = 0;
-        this.numberProducts = 0;
+        this.rawPrice = rawPrice;
+        this.finalPrice = finalPrice;
+        this.numberProducts = numberProducts;
         this.products = products;
     }
 
@@ -48,6 +50,10 @@ public class Basket {
         this.rawPrice = rawPrice;
     }
 
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
     public Integer getNumberProducts() {
         return numberProducts;
     }
@@ -64,11 +70,8 @@ public class Basket {
         Integer basketItemRawPrice = product.getProduct().getPrice() * product.getQuantity();
         this.rawPrice += basketItemRawPrice;
         this.products.add(product);
-        if(this.numberProducts == null) {
-            this.numberProducts = 1;
-        } else {
-            this.numberProducts++;
-        }
+        this.numberProducts++;
+        calculatePromotions();
     }
 
     public void setProducts(Set<BasketItem> products) {
@@ -79,12 +82,12 @@ public class Basket {
         float savings = 0;
         for(BasketItem b : products) {
             Product product = b.getProduct();
-            Integer rawPrice = b.getQuantity() * product.getPrice();
+            Integer price = b.getQuantity() * product.getPrice();
             if(product.getPromotions().size() > 0) {
                 for(Promotion p : product.getPromotions()) {
                     if(p instanceof FlatPromotion) {
                         FlatPromotion flat = (FlatPromotion) p;
-                        savings += (rawPrice * flat.getPercentDiscount()) / 100.00;
+                        savings += (price * flat.getPercentDiscount()) / 100.00;
                     } else if(p instanceof GetFreePromotion) {
 
                     } else if(p instanceof QuantityPromotion) {
@@ -93,6 +96,7 @@ public class Basket {
                 }
             }
         }
+        this.finalPrice = this.rawPrice - savings;
         return savings;
     }
 }

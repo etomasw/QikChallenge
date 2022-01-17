@@ -1,8 +1,9 @@
 package com.qik.challenge.service.impl;
 
+import com.qik.challenge.enums.PromotionType;
 import com.qik.challenge.model.Promotion;
-import com.qik.challenge.repository.PromotionBaseRepository;
-import com.qik.challenge.repository.PromotionRepository;
+import com.qik.challenge.model.promotions.FlatPromotion;
+import com.qik.challenge.repository.*;
 import com.qik.challenge.service.PromotionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,12 @@ import java.util.List;
 public class PromotionServiceImpl implements PromotionService {
 
     private Logger LOGGER = LoggerFactory.getLogger(PromotionServiceImpl.class);
+    private PromotionRepository promotionRepository;
 
     @Autowired
-    private PromotionRepository promotionRepository;
+    public PromotionServiceImpl(PromotionRepository promotionRepository) {
+        this.promotionRepository = promotionRepository;
+    }
 
     @Override
     public List<Promotion> findAll() {
@@ -30,5 +34,10 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public Promotion findById(Long id) {
         return promotionRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Promotion create(Promotion p) {
+        return this.promotionRepository.save(p);
     }
 }

@@ -8,4 +8,5 @@ public interface PromotionService {
 
     List<Promotion> findAll();
     Promotion findById(Long id);
+    Promotion create(Promotion promotion);
 }

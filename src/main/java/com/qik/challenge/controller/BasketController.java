@@ -33,9 +33,7 @@ public class BasketController {
     @GetMapping("/info/{id}")
     public ResponseEntity<Basket> getBasket(@PathVariable("id") Long id) {
         Basket basket = basketService.findById(id);
-        LOGGER.info("Total order cost with promotions: " + basket.calculatePromotions());
-        LOGGER.info("Total order cost RAW withour promos: " + basket.getRawPrice());
-        return new ResponseEntity<>(basketService.findById(id), OK);
+        return new ResponseEntity<>(basket, OK);
     }
 
     @PostMapping("/add/{id}/{basketItemId}")
