@@ -9,5 +9,5 @@ public interface ProductService {
     Product findByUUID(String id);
     List<Product> findAll();
     void loadProducts();
-    void update(Product p);
+    Product update(Product p);
 }

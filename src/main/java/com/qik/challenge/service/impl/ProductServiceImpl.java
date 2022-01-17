@@ -50,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product p) {
-        repository.save(p);
+    public Product update(Product p) {
+        return repository.save(p);
     }
 
     private List<Product> loadProductsFromAPI() {
